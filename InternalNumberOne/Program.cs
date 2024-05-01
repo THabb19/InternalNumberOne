@@ -69,13 +69,30 @@ namespace InternalNumberOne
             //User picks a category
             Console.WriteLine(GenerateMenu());
             int deviceCategory = Convert.ToInt32(Console.ReadLine());
+            //User enters device name
             Console.WriteLine("\nPlease enter the name of the device:");
             string deviceName = Console.ReadLine();
+            //User enters device cost
             Console.WriteLine("\nPlease enter the cost of the device:");
             float deviceCost = (float)Convert.ToDecimal(Console.ReadLine());
+            //User enters how many devices they want insured
             Console.WriteLine("\nHow many devices do you want to insure?");
-            float numOfDevice = (float)Convert.ToDecimal(Console.ReadLine());
+            int numOfDevice = Convert.ToInt32(Console.ReadLine());
+            //Check how many devices are in the category
+            if (deviceCategory.Equals (1))
+            {
+                catOneCounter += numOfDevice;
+            }
+            else if (deviceCategory.Equals (2))
+            {
+                catTwoCounter += numOfDevice;
+            }
+            else if (deviceCategory.Equals(3))
+            {
 
+            catThreeCounter += numOfDevice;
+            }
+            totalDeviceCounter = totalDeviceCounter + numOfDevice;
             float deviceInsurance = InsureDevice(numOfDevice, deviceCost);
             float valueLoss = deviceCost;
 
@@ -113,7 +130,10 @@ namespace InternalNumberOne
                 proceed = checkProceed();
 
             }
-            Console.WriteLine("Thank you for using Device Calculator");
+            Console.WriteLine($"Total number of Desktops: {catOneCounter}");
+            Console.WriteLine($"Total number of Laptops: {catThreeCounter}");
+            Console.WriteLine($"Total number of Phones/drones: {catThreeCounter}");
+            Console.WriteLine($"Total number of devices: {totalDeviceCounter}");
         }
     }
 }
