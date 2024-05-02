@@ -12,11 +12,14 @@ namespace InternalNumberOne
                 "Desktop", "Laptop", "Phone/drone"
         };
         static int catOneCounter, catTwoCounter, catThreeCounter, totalDeviceCounter = 0;
+        static float totalInsurance, mostExpensiveDevice = 0;
+        static string topDeviceName = "";
 
         // Methods and functions
 
         static string checkProceed()
         {
+            //A method checking if the user wants to continue using the program
             while (true)
             {
                 Console.WriteLine("Press <Enter> to add another employee or type 'X' to exit");
@@ -32,6 +35,7 @@ namespace InternalNumberOne
         }
         static string GenerateMenu()
         {
+            //Generates a menu
 
             string menu = $"Select the device category:\n";
             for (int index = 0; index < category.Count; index++)
@@ -53,6 +57,7 @@ namespace InternalNumberOne
             }
             else
             {
+                //Calculating the price with discount
                 deviceInsurance = (numofdevice - 5) * cost * 0.9f;
                 deviceInsurance += 5 * cost;
 
@@ -78,7 +83,7 @@ namespace InternalNumberOne
             //User enters how many devices they want insured
             Console.WriteLine("\nHow many devices do you want to insure?");
             int numOfDevice = Convert.ToInt32(Console.ReadLine());
-            //Check how many devices are in the category
+            //Save how many devices are in a category
             if (deviceCategory.Equals (1))
             {
                 catOneCounter += numOfDevice;
@@ -87,12 +92,12 @@ namespace InternalNumberOne
             {
                 catTwoCounter += numOfDevice;
             }
-            else if (deviceCategory.Equals(3))
+            else
             {
-
-            catThreeCounter += numOfDevice;
+                catThreeCounter += numOfDevice;
             }
             totalDeviceCounter = totalDeviceCounter + numOfDevice;
+            //Calculates the total value lost over a 6 month period
             float deviceInsurance = InsureDevice(numOfDevice, deviceCost);
             float valueLoss = deviceCost;
 
@@ -107,7 +112,15 @@ namespace InternalNumberOne
 
 
             }
-            Console.WriteLine($"Category: {deviceCategory}");
+            //Display what category of deivce the user chose
+            Console.WriteLine($"Category: {category[deviceCategory-1]}");
+            //Storing the most expensive devices price and name
+            if ( mostExpensiveDevice < deviceCost )
+            {
+                mostExpensiveDevice = deviceCost;
+                topDeviceName = deviceName;
+
+            }
 
         }
         
@@ -129,11 +142,14 @@ namespace InternalNumberOne
                 OneDevice();
                 proceed = checkProceed();
 
+
             }
+            //Summative information 
             Console.WriteLine($"Total number of Desktops: {catOneCounter}");
-            Console.WriteLine($"Total number of Laptops: {catThreeCounter}");
+            Console.WriteLine($"Total number of Laptops: {catTwoCounter}");
             Console.WriteLine($"Total number of Phones/drones: {catThreeCounter}");
             Console.WriteLine($"Total number of devices: {totalDeviceCounter}");
+            Console.WriteLine($"Most expensive device: {topDeviceName} at ${mostExpensiveDevice}");
         }
     }
 }
