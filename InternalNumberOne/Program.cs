@@ -31,68 +31,159 @@ namespace InternalNumberOne
                 {
                     return checkProceed;
                 }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR: Please press <Enter> or X");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
-        static string GenerateMenu()
+        static string GenerateMenu(string menuType, List<string> listData)
         {
-            //Generates a menu
 
-            string menu = $"Select the device category:\n";
-            for (int index = 0; index < category.Count; index++)
+
+            string menu = $"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                            $"Select the {menuType}:\n";
+
+            for (int loop = 0; loop < listData.Count; loop++)
             {
-                menu += $"{index + 1}. {category[index]}\n";
+                menu += $"{loop + 1}. {listData[loop]}\n";
             }
+
             return menu;
+
         }
 
+        static int MenuChoice(string menuType, List<string> listData)
+        {
+
+            string menu = GenerateMenu(menuType, listData);
+
+            return CheckInt(menu, 1, listData.Count) - 1;
+        }
+
+        static float CheckFloat(string question, float min, float max)
+        {
+
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine(question);
+
+                    float userfloat = (float)Convert.ToDecimal(Console.ReadLine());
+
+                    if (userfloat >= min && userfloat <= max)
+                    {
+                        return userfloat;
+                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"ERROR: You must enter a number between {min} and {max}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"ERROR: You must enter a number between {min} and {max}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+
+        }
 
         static float InsureDevice(float numofdevice, float cost)
+            {
+                float deviceInsurance = 0;
+
+                if (numofdevice < 6)
+                {
+                    //Calculate the insurance price before discount
+                    deviceInsurance = numofdevice * cost;
+                }
+                else
+                {
+                    //Calculating the price with discount
+                    deviceInsurance = (numofdevice - 5) * cost * 0.9f;
+                    deviceInsurance += 5 * cost;
+
+                }
+
+                return deviceInsurance;
+            }
+
+        static int CheckInt(string question, int min, int max)
         {
-            float deviceInsurance = 0;
 
-            if (numofdevice < 6)
+            while (true)
             {
-                //Calculate the insurance price before discount
-                deviceInsurance = numofdevice * cost;
-            }
-            else
-            {
-                //Calculating the price with discount
-                deviceInsurance = (numofdevice - 5) * cost * 0.9f;
-                deviceInsurance += 5 * cost;
+                try
+                {
+                    Console.WriteLine(question);
 
+                    int userInt = Convert.ToInt32(Console.ReadLine());
+
+                    if (userInt >= min && userInt <= max)
+                    {
+                        return userInt;
+                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"ERROR: You must enter an integer between {min} and {max}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("ERROR: You must enter a number!");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                
             }
-            
-            return deviceInsurance;
+
+
         }
 
+        static string CheckName()
+        {
+            while (true)
+            {
+                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                    "Enter the device name:");
 
+                string name = Console.ReadLine();
 
+                if (!name.Equals(""))
+                {
+                    name = name[0].ToString().ToUpper() + name.Substring(1);
+
+                    return name;
+                }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR: You must enter a name");
+                Console.ForegroundColor= ConsoleColor.White;
+            }
+
+        }
 
         static void OneDevice()
         {
             //User picks a category
-            Console.WriteLine(GenerateMenu());
-            int deviceCategory = Convert.ToInt32(Console.ReadLine());
+            int deviceCategory = MenuChoice("category", category);
             //User enters device name
-            Console.WriteLine("\nPlease enter the name of the device:");
-            string deviceName = Console.ReadLine();
+            string deviceName = CheckName();
             //User enters device cost
-            Console.WriteLine("\nPlease enter the cost of the device:");
-            float deviceCost = (float)Convert.ToDecimal(Console.ReadLine());
+            float deviceCost = CheckFloat("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                                            "Please enter the cost of the device:", 0, 10000);
             //User enters how many devices they want insured
-            Console.WriteLine("\nHow many devices do you want to insure?");
-            int numOfDevice = Convert.ToInt32(Console.ReadLine());
+            int numOfDevice = CheckInt("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
+                "How many devices do you want to insure?", 0, 150);
             //Save how many devices are in a category
-            if (deviceCategory.Equals (1))
+            if (deviceCategory.Equals (0))
             {
                 catOneCounter += numOfDevice;
             }
-            else if (deviceCategory.Equals (2))
+            else if (deviceCategory.Equals (1))
             {
                 catTwoCounter += numOfDevice;
             }
-            else
+            else if(deviceCategory.Equals (2))
             {
                 catThreeCounter += numOfDevice;
             }
@@ -101,7 +192,8 @@ namespace InternalNumberOne
             float deviceInsurance = InsureDevice(numOfDevice, deviceCost);
             float valueLoss = deviceCost;
 
-            Console.WriteLine($"Total insurance cost for {numOfDevice}x {deviceName} devices: ${deviceInsurance}");
+            Console.WriteLine($"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n" +
+                $"Total insurance cost for {numOfDevice}x {deviceName} devices: ${deviceInsurance}");
 
             Console.WriteLine($"Month\tValue Loss");
 
@@ -113,7 +205,8 @@ namespace InternalNumberOne
 
             }
             //Display what category of deivce the user chose
-            Console.WriteLine($"Category: {category[deviceCategory-1]}");
+            Console.WriteLine($"Category: {category[deviceCategory]}\n" +
+                $"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
             //Storing the most expensive devices price and name
             if ( mostExpensiveDevice < deviceCost )
             {
@@ -145,11 +238,13 @@ namespace InternalNumberOne
 
             }
             //Summative information 
-            Console.WriteLine($"Total number of Desktops: {catOneCounter}");
+            Console.WriteLine($"*****************************************\n" +
+                $"Total number of Desktops: {catOneCounter}");
             Console.WriteLine($"Total number of Laptops: {catTwoCounter}");
             Console.WriteLine($"Total number of Phones/drones: {catThreeCounter}");
             Console.WriteLine($"Total number of devices: {totalDeviceCounter}");
-            Console.WriteLine($"Most expensive device: {topDeviceName} at ${mostExpensiveDevice}");
+            Console.WriteLine($"Most expensive device: {topDeviceName} at ${mostExpensiveDevice}\n" +
+                $"*****************************************");
         }
     }
 }
