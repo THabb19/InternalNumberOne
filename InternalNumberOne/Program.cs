@@ -7,7 +7,7 @@ namespace InternalNumberOne
     internal class Program
     {
         //Global Variables
-        static List<string> category = new List<string>()
+        readonly static List<string> CATEGORY = new List<string>()
         {
                 "Desktop", "Laptop", "Phone/drone"
         };
@@ -165,7 +165,7 @@ namespace InternalNumberOne
         static void OneDevice()
         {
             //User picks a category
-            int deviceCategory = MenuChoice("category", category);
+            int deviceCategory = MenuChoice("category", CATEGORY);
             //User enters device name
             string deviceName = CheckName();
             //User enters device cost
@@ -205,7 +205,7 @@ namespace InternalNumberOne
 
             }
             //Display what category of deivce the user chose
-            Console.WriteLine($"Category: {category[deviceCategory]}\n" +
+            Console.WriteLine($"Category: {CATEGORY[deviceCategory]}\n" +
                 $"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
             //Storing the most expensive devices price and name
             if ( mostExpensiveDevice < deviceCost )
