@@ -257,6 +257,8 @@ namespace InternalNumberOne
             Console.WriteLine($"Most expensive device: {topDeviceName} at ${mostExpensiveDevice}\n" +
                 $"*****************************************");
             Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine("Thank you for using Insurance App");
         }
     }
 }
