@@ -1,6 +1,7 @@
 ﻿//imports
 
 using System.Diagnostics;
+using System.Reflection.PortableExecutable;
 
 namespace InternalNumberOne
 {
@@ -17,6 +18,7 @@ namespace InternalNumberOne
 
         // Methods and functions
 
+        //Checks if the user wants to continue using the app
         static string checkProceed()
         {
             //A method checking if the user wants to continue using the program
@@ -38,6 +40,8 @@ namespace InternalNumberOne
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
+
+        //Generates the menu using the specified list
         static string GenerateMenu(string menuType, List<string> listData)
         {
 
@@ -54,6 +58,7 @@ namespace InternalNumberOne
 
         }
 
+        //Checks the users choice for the menu and stores it
         static int MenuChoice(string menuType, List<string> listData)
         {
 
@@ -62,6 +67,7 @@ namespace InternalNumberOne
             return CheckInt(menu, 1, listData.Count) - 1;
         }
 
+        //Checks all float vairables for boundary and invald data
         static float CheckFloat(string question, float min, float max)
         {
 
@@ -70,26 +76,6 @@ namespace InternalNumberOne
                 try
                 {
                     Console.WriteLine(question);
-
-                    float userfloat = (float)Convert.ToDecimal(Console.ReadLine());
-
-                    if (userfloat >= min && userfloat <= max)
-                    {
-                        return userfloat;
-                    }
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"ERROR: You must enter a number between {min} and {max}");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                catch
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"ERROR: You must enter a number between {min} and {max}");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-            }
-
-        }
 
                     float userfloat = (float)Convert.ToDecimal(Console.ReadLine());
 
@@ -132,6 +118,7 @@ namespace InternalNumberOne
                 return deviceInsurance;
             }
 
+        //Checks Int vairables for boundary and Invalid data
         static int CheckInt(string question, int min, int max)
         {
 
@@ -163,6 +150,7 @@ namespace InternalNumberOne
 
         }
 
+        //Checks string vairables for boundary and invalid adata
         static string CheckName()
         {
             while (true)
@@ -185,6 +173,7 @@ namespace InternalNumberOne
 
         }
 
+        //Collects device data and calculates insurance, value loss and print summary
         static void OneDevice()
         {
             //User picks a category
@@ -239,9 +228,6 @@ namespace InternalNumberOne
             }
 
         }
-
-
-
 
         //Main process / When run...
         static void Main(string[] args)
