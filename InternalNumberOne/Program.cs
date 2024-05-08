@@ -19,7 +19,7 @@ namespace InternalNumberOne
         // Methods and functions
 
         //Checks if the user wants to continue using the app
-        static string checkProceed()
+        static string CheckProceed()
         {
             //A method checking if the user wants to continue using the program
             while (true)
@@ -242,7 +242,7 @@ namespace InternalNumberOne
             while (proceed.Equals(""))
             {
                 OneDevice();
-                proceed = checkProceed();
+                proceed = CheckProceed();
 
 
             }
