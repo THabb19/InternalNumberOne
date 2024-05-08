@@ -7,10 +7,10 @@ namespace InternalNumberOne
     internal class Program
     {
         //Global Variables
-        readonly static List<string> category = new List<string>()
-                 {
-                    "Desktop", "Laptop", "Phone/drone"
-                 };
+        readonly static List<string> CATEGORY = new List<string>()
+        {
+                "Desktop", "Laptop", "Phone/drone"
+        };
         static int catOneCounter, catTwoCounter, catThreeCounter, totalDeviceCounter = 0;
         static float totalInsurance, mostExpensiveDevice = 0;
         static string topDeviceName = "";
@@ -38,8 +38,6 @@ namespace InternalNumberOne
                 Console.ForegroundColor = ConsoleColor.White;
             }
         }
-
-        //Method generates the menu using CATEGORY list
         static string GenerateMenu(string menuType, List<string> listData)
         {
 
@@ -55,8 +53,7 @@ namespace InternalNumberOne
             return menu;
 
         }
-        
-        //Checks and stores the users menu choice
+
         static int MenuChoice(string menuType, List<string> listData)
         {
 
@@ -65,7 +62,6 @@ namespace InternalNumberOne
             return CheckInt(menu, 1, listData.Count) - 1;
         }
 
-        //Checks all float vairables
         static float CheckFloat(string question, float min, float max)
         {
 
@@ -95,28 +91,47 @@ namespace InternalNumberOne
 
         }
 
-        //Insurance for the devices
-        static float InsureDevice(float numofdevice, float cost)
-        {
-            float deviceInsurance = 0;
+                    float userfloat = (float)Convert.ToDecimal(Console.ReadLine());
 
-            if (numofdevice < 6)
-            {
-                //Calculate the insurance price before discount
-                deviceInsurance = numofdevice * cost;
+                    if (userfloat >= min && userfloat <= max)
+                    {
+                        return userfloat;
+                    }
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"ERROR: You must enter a number between {min} and {max}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                catch
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"ERROR: You must enter a number between {min} and {max}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
             }
-            else
-            {
-                //Calculating the price with discount
-                deviceInsurance = (numofdevice - 5) * cost * 0.9f;
-                deviceInsurance += 5 * cost;
 
-            }
-
-            return deviceInsurance;
         }
 
-        //Checks Int vairables
+        //Insurance for the devices
+        static float InsureDevice(float numofdevice, float cost)
+            {
+                float deviceInsurance = 0;
+
+                if (numofdevice < 6)
+                {
+                    //Calculate the insurance price before discount
+                    deviceInsurance = numofdevice * cost;
+                }
+                else
+                {
+                    //Calculating the price with discount
+                    deviceInsurance = (numofdevice - 5) * cost * 0.9f;
+                    deviceInsurance += 5 * cost;
+
+                }
+
+                return deviceInsurance;
+            }
+
         static int CheckInt(string question, int min, int max)
         {
 
@@ -142,13 +157,12 @@ namespace InternalNumberOne
                     Console.WriteLine("ERROR: You must enter a number!");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-
+                
             }
 
 
         }
 
-        //Checks String vairables
         static string CheckName()
         {
             while (true)
@@ -166,16 +180,15 @@ namespace InternalNumberOne
                 }
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR: You must enter a name");
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor= ConsoleColor.White;
             }
 
         }
 
-        //Method for calculating the users input
         static void OneDevice()
         {
             //User picks a category
-            int deviceCategory = MenuChoice("category", category);
+            int deviceCategory = MenuChoice("category", CATEGORY);
             //User enters device name
             string deviceName = CheckName();
             //User enters device cost
@@ -185,15 +198,15 @@ namespace InternalNumberOne
             int numOfDevice = CheckInt("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n" +
                 "How many devices do you want to insure?", 0, 150);
             //Save how many devices are in a category
-            if (deviceCategory.Equals(0))
+            if (deviceCategory.Equals (0))
             {
                 catOneCounter += numOfDevice;
             }
-            else if (deviceCategory.Equals(1))
+            else if (deviceCategory.Equals (1))
             {
                 catTwoCounter += numOfDevice;
             }
-            else if (deviceCategory.Equals(2))
+            else if(deviceCategory.Equals (2))
             {
                 catThreeCounter += numOfDevice;
             }
@@ -215,10 +228,10 @@ namespace InternalNumberOne
 
             }
             //Display what category of deivce the user chose
-            Console.WriteLine($"Category: {category[deviceCategory]}\n" +
+            Console.WriteLine($"Category: {CATEGORY[deviceCategory]}\n" +
                 $"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$\n");
             //Storing the most expensive devices price and name
-            if (mostExpensiveDevice < deviceCost)
+            if ( mostExpensiveDevice < deviceCost )
             {
                 mostExpensiveDevice = deviceCost;
                 topDeviceName = deviceName;
@@ -248,17 +261,13 @@ namespace InternalNumberOne
 
             }
             //Summative information 
-            Console.ForegroundColor= ConsoleColor.Green;
-            Console.WriteLine($"\n*****************************************\n" +
+            Console.WriteLine($"*****************************************\n" +
                 $"Total number of Desktops: {catOneCounter}");
             Console.WriteLine($"Total number of Laptops: {catTwoCounter}");
             Console.WriteLine($"Total number of Phones/drones: {catThreeCounter}");
             Console.WriteLine($"Total number of devices: {totalDeviceCounter}");
             Console.WriteLine($"Most expensive device: {topDeviceName} at ${mostExpensiveDevice}\n" +
                 $"*****************************************");
-            Console.ForegroundColor = ConsoleColor.White;
-
-            Console.WriteLine("Thank you for using Insurance App");
         }
     }
 }
